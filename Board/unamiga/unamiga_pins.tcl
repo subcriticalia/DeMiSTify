@@ -15,12 +15,12 @@ set_location_assignment PIN_B1 -to LEDS[1]
 #set_location_assignment PIN_M6 -to PIEZO
 #
 # RATON
-set_location_assignment PIN_T4 -to PS2_MCLK
-set_location_assignment PIN_R5 -to PS2_MDAT
+set_location_assignment PIN_T4 -to PS2_MOUSE_CLK
+set_location_assignment PIN_R5 -to PS2_MOUSE_DAT
 #
 # TECLADO
-set_location_assignment PIN_E7 -to PS2_CLK
-set_location_assignment PIN_F1 -to PS2_DAT
+set_location_assignment PIN_E7 -to PS2_KEYBOARD_CLK
+set_location_assignment PIN_F1 -to PS2_KEYBOARD_DAT
 #
 # SONIDO
 set_location_assignment PIN_J2 -to AUDIO_L
@@ -29,7 +29,6 @@ set_location_assignment PIN_T6 -to I2S_LRCK
 set_location_assignment PIN_T5 -to I2S_BCK
 set_location_assignment PIN_T7 -to I2S_DATA
 set_location_assignment PIN_R6 -to I2S_MCK
-set_location_assignment PIN_AC17 -to AUDIO_IN
 #
 # MANDO 1 del raton DB9 (9 pines)
 set_location_assignment PIN_N11 -to JOYA[0]
