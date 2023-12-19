@@ -164,7 +164,15 @@ set_location_assignment PIN_A23 -to LED
 set_location_assignment PIN_AE5 -to UART_RX
 set_location_assignment PIN_AF4 -to UART_TX
 
+# QMTech Leds  (0 = led on)
+set_location_assignment PIN_A25 -to LED1
+set_location_assignment PIN_A24 -to LED2
+
+# QMTech Keys  (0 = button pressed)
+set_location_assignment PIN_AD23 -to KEY0
+set_location_assignment PIN_AD24 -to KEY1
 #============================
+
 set_location_assignment PLL_1 -to "pll:pll|altpll:altpll_component"
 set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to SDRAM_DQ[0]
 
