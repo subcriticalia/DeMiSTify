@@ -117,7 +117,8 @@ def extract_file_paths(file_path, base_path=None):
             content = f.readlines()
 
         # Buscamos rutas de archivos con los tipos VHDL_FILE, VERILOG_FILE, SYSTEMVERILOG_FILE, SDC_FILE y QIP_FILE
-        pattern = r'set_global_assignment\s+-name\s+(VHDL_FILE|VERILOG_FILE|QIP_FILE|SYSTEMVERILOG_FILE)\s+(.*?)$'
+        #pattern  = r'set_global_assignment\s?(.*?)?\s?(.*?)?\s+-name\s+(VHDL_FILE|VERILOG_FILE|QIP_FILE|SYSTEMVERILOG_FILE)\s+(.*?)$'
+        pattern = r'set_global_assignment\s+-name\s+(VHDL_FILE|VERILOG_FILE|QIP_FILE|SYSTEMVERILOG_FILE)\s+(.*?)$'       
         # pattern = r'set_global_assignment\s+-name\s+(VHDL_FILE|VERILOG_FILE|QIP_FILE|SYSTEMVERILOG_FILE|SDC_FILE)\s+(.*?)$'
         for line in content:
             line = line.replace("file join $::quartus(qip_path) ", "").strip()
@@ -150,11 +151,15 @@ def extract_file_paths(file_path, base_path=None):
                         file_paths.append(f'add_files -fileset {container} {{\"{file_path.strip()}\"}}')
                         if (file_path.strip()[-2:]=='.v'  and change_v_to_vs == 1):
                             file_paths.append(f'set_property file_type SystemVerilog [get_files  {{\"{file_path.strip()}\"}}]')
+                        #if (file_path.strip()[-4:]=='.vhd'):
+                        #    file_paths.append(f'set_property file_type  {{VHDL 2008}} [get_files  {{\"{file_path.strip()}\"}}]')                            
                     else:
                         # Agregamos el tipo SVerilog a los ficheros .v para redudir el numero de alertas de Vivado
                         file_paths.append(f'add_files -fileset {container} {{{file_path.strip()}}}')
                         if (file_path.strip()[-2:]=='.v'  and change_v_to_vs == 1):
                             file_paths.append(f'set_property file_type SystemVerilog [get_files  {{{file_path.strip()}}}]')
+                        #if (file_path.strip()[-4:]=='.vhd'):
+                        #    file_paths.append(f'set_property file_type  {{VHDL 2008}} [get_files  {{{file_path.strip()}}}]')                            
     except:
         print(f"Warning: No se encontró el fichero {file_path}")
         
@@ -229,7 +234,7 @@ def main():
         f.write(f"set_property top zxtres_top [current_fileset]\n")
 
         # Instrucción para establecer los directorios de búsqueda para ficheros de inclusión
-        f.write(f"set_property -name \"include_dirs\" -value \"[file normalize \"../../../modules/jtframe/hdl/inc\"] [file normalize \"../hdl\"]\" -objects [current_fileset]\n")
+        # f.write(f"set_property -name \"include_dirs\" -value \"[file normalize \"../../../modules/jtframe/hdl/inc\"] [file normalize \"../hdl\"]\" -objects [current_fileset]\n")
 
         # Instrucción para establecer los valores iniciales de las variables GENERIC del TOP
         f.write(f"set_property generic {{VGA_OUTPUT={vga_output} CLKVIDEO={clkvideo} HSTART={hstart}}} [current_fileset]\n")
