@@ -1,6 +1,8 @@
-# steps to add ZXTRES DeMiSTify target into an already demistified core
+# Add ZXTRES DeMiSTify target into an already demistified core
 
-Example: https://github.com/somhi/MSX_deMiSTified forked from  https://github.com/DeMistified/MSX_deMiSTified
+### Example: https://github.com/somhi/MSX_deMiSTified 
+
+(forked from  https://github.com/DeMistified/MSX_deMiSTified)
 
 ```sh
 #Clone repository
@@ -35,7 +37,7 @@ cp -r DeMiSTify/templates/zxtres/ .
 #Set the Mist guest core module name in defs_demistify.v 
 cp DeMiSTify/templates/demistify/defs_demistify.v .
 gedit defs_demistify.v 
-#`define GUEST_TOP guest_top      // in this example
+#`define GUEST_TOP guest_top      // in this example doesn't change
 
 #Check in neptuno/top.qip which additional files are needed and adapt zxtres/top.qip
 #In this example there is only needed the pll.v apart from the target's top file. 
