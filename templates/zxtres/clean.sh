@@ -1,8 +1,9 @@
 find ../firmware/ -type f \( ! -iname "config.h" ! -iname "*.c" ! -iname "*.vhd" \) -delete
 find output_files/ -type f \( ! -iname "*.sof" ! -iname "*.svf" ! -iname "*.flow.rpt" ! -iname "*.sta.rpt" \) -delete
 rm -f output_files/*_pof.svf
-rm Oric_zxtres_files.tcl
+rm *_zxtres_files.tcl
 rm build.v
+rm build.vh
 rm -r output_files
 rm vivado*
 #find output_files/  -type f -not -name '*.sof' -delete

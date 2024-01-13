@@ -1,4 +1,3 @@
-
 // file: pll.v
 // 
 // (c) Copyright 2008 - 2013 Xilinx, Inc. All rights reserved.
@@ -56,10 +55,8 @@
 //  Output     Output      Phase    Duty Cycle   Pk-to-Pk     Phase
 //   Clock     Freq (MHz)  (degrees)    (%)     Jitter (ps)  Error (ps)
 //----------------------------------------------------------------------------
-// clk_out1__24.00000____  0.000______50.0______
-// clk_out2__72.00000______0.000______50.0______
-
-
+// c0__________21.48000____  0.000______50.0______
+// c1__________85.91000______0.000______50.0______
 //
 //----------------------------------------------------------------------------
 // Input Clock   Freq (MHz)    Input Jitter (UI)
@@ -70,15 +67,15 @@
 
 module pll
  (// Clock in ports
-  input wire        clk_in1,
+  input wire        inclk0,
   // Clock out ports
-  output wire       clk_out1,
-  output wire       clk_out2,
-  // output wire       clk_out3,
-  // output wire       clk_out4,
-  // output wire       clk_out5,
+  output wire       c0,
+  output wire       c1,
+  // output wire       c2,
+  // output wire       c3,
+  // output wire       c4,
   // Status and control signals
-  input wire        reset,
+  input wire        areset,
   output wire       locked
  );
   // Input buffering
@@ -87,8 +84,8 @@ wire clk_in1_clk_wiz_0;
 wire clk_in2_clk_wiz_0;
   // IBUF clkin1_ibufg
   //  (.O (clk_in1_clk_wiz_0),
-  //   .I (clk_in1));
-assign clk_in1_clk_wiz_0 = clk_in1;
+  //   .I (inclk0));
+assign clk_in1_clk_wiz_0 = inclk0;
 
   // Clocking PRIMITIVE
   //------------------------------------
@@ -128,16 +125,16 @@ assign clk_in1_clk_wiz_0 = clk_in1;
     .COMPENSATION         ("ZHOLD"),
     .STARTUP_WAIT         ("FALSE"),
     .DIVCLK_DIVIDE        (1),
-    .CLKFBOUT_MULT_F      (23.000),
+    .CLKFBOUT_MULT_F      (24.000),
     .CLKFBOUT_PHASE       (0.000),
     .CLKFBOUT_USE_FINE_PS ("FALSE"),
     //
-    .CLKOUT0_DIVIDE_F     (48),
+    .CLKOUT0_DIVIDE_F     (56),
     .CLKOUT0_PHASE        (0.000),
     .CLKOUT0_DUTY_CYCLE   (0.500),
     .CLKOUT0_USE_FINE_PS  ("FALSE"),
     //
-    .CLKOUT1_DIVIDE       (16),
+    .CLKOUT1_DIVIDE       (14),
     .CLKOUT1_PHASE        (0.000),
     .CLKOUT1_DUTY_CYCLE   (0.500),
     .CLKOUT1_USE_FINE_PS  ("FALSE"),
@@ -198,7 +195,7 @@ assign clk_in1_clk_wiz_0 = clk_in1;
     .CLKINSTOPPED        (clkinstopped_unused),
     .CLKFBSTOPPED        (clkfbstopped_unused),
     .PWRDWN              (1'b0),
-    .RST                 (reset));
+    .RST                 (areset));
 
   assign locked = locked_int;
 // Clock Monitor clock assigning
@@ -207,27 +204,27 @@ assign clk_in1_clk_wiz_0 = clk_in1;
   //-----------------------------------
 
   BUFG bclk_out1 (
-    .O(clk_out1),
+    .O(c0),
     .I(clk_out1_clk_wiz_0)
     );
 
   BUFG bclkout2 (
-   .O(clk_out2),
+   .O(c1),
    .I(clk_out2_clk_wiz_0)
    );
 
   // BUFG bclkout3 (
-  //  .O(clk_out3),
+  //  .O(c2),
   //  .I(clk_out3_clk_wiz_0)
   //  );
 
   // BUFG bclkout4 (
-  //  .O(clk_out4),
+  //  .O(c3),
   //  .I(clk_out4_clk_wiz_0)
   //  );
 
   //  BUFG bclkout5 (
-  //   .O(clk_out5),
+  //   .O(c4),
   //   .I(clk_out5_clk_wiz_0)
   //   );   
 
