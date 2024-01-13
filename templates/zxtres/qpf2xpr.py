@@ -190,9 +190,9 @@ def crear_defs_vh():
                     macro = match.group(1)
                     f_defs.write(f"`define {macro.replace('=', ' ')}\n")
     
-def crear_build_id_vh():
+def crear_build_id_v():
     fechahora = datetime.now()
-    with open('./build_id.vh', 'w') as f:
+    with open('./build_id.v', 'w') as f:
         f.write(f"`define BUILD_DATE \"{fechahora.strftime('%y%m%d')}\"\n`define BUILD_TIME \"{fechahora.strftime('%H%M%S')}\"\n")
 
 def main():
@@ -210,11 +210,11 @@ def main():
     file_paths = extract_file_paths(input_file)
 
     file_paths.append('add_files -fileset sources_1 {./defs.vh}')
-    file_paths.append('add_files -fileset sources_1 {./build_id.vh}')
+    file_paths.append('add_files -fileset sources_1 {./build_id.v}')
     file_paths.append('add_files -fileset constrs_1 {./zxtres.xdc}')
 
     file_paths.append('set_property IS_GLOBAL_INCLUDE true [get_files ./defs.vh]')
-    file_paths.append('set_property IS_GLOBAL_INCLUDE true [get_files ./build_id.vh]')
+    file_paths.append('set_property IS_GLOBAL_INCLUDE true [get_files ./build_id.v]')
     file_paths.append('set_property IS_GLOBAL_INCLUDE true [get_files ../defs_demistify.v]')
 
     if file_paths:
@@ -348,7 +348,7 @@ def main():
 
 
     crear_defs_vh()
-    crear_build_id_vh()
+    crear_build_id_v()
     
     # print("\n==========================================================================================")
     # print("Agregar al PATH la ruta de los comandos de Vivado (D:\\Xilinx\\Vivado\2022.2\\bin\\)")
