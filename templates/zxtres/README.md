@@ -60,6 +60,18 @@ gedit pll.v
 ./demist_zxtres.sh msx demist_zx3a200 3
 
 #Open generated Vivado project to better debug errors
+#Use RTL analysis > Open Eleborated Design to check for RTL errors before Run Synthesis
+```
+
+
+
+## Vivado common errors when porting from Quartus 
+
+```sh
+[Synth 8-2577] procedural assignment to a non-register VGA_VS is not permitted, left-hand side should be reg/integer/time/genvar 
+# edit file and change VGA_VS to reg type
+
+
 
 
 
