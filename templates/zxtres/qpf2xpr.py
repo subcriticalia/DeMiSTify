@@ -117,9 +117,9 @@ def extract_file_paths(file_path, base_path=None):
             content = f.readlines()
 
         # Buscamos rutas de archivos con los tipos VHDL_FILE, VERILOG_FILE, SYSTEMVERILOG_FILE, SDC_FILE y QIP_FILE
-        #pattern  = r'set_global_assignment\s?(.*?)?\s?(.*?)?\s+-name\s+(VHDL_FILE|VERILOG_FILE|QIP_FILE|SYSTEMVERILOG_FILE)\s+(.*?)$'
-        pattern = r'set_global_assignment\s+-name\s+(VHDL_FILE|VERILOG_FILE|QIP_FILE|SYSTEMVERILOG_FILE)\s+(.*?)$'       
-        # pattern = r'set_global_assignment\s+-name\s+(VHDL_FILE|VERILOG_FILE|QIP_FILE|SYSTEMVERILOG_FILE|SDC_FILE)\s+(.*?)$'
+        # pattern = r'set_global_assignment\s+-name\s+(VHDL_FILE|VERILOG_FILE|QIP_FILE|SYSTEMVERILOG_FILE)\s+(.*?)$'  
+        # pattern = r'set_global_assignment(?:\s+-\w+\s+\w+)*\s+-name\s+(VHDL_FILE|VERILOG_FILE|QIP_FILE|SYSTEMVERILOG_FILE)\s+(.*?)$'            
+        pattern = r'set_global_assignment(?:\s+-\w+\s+\w+)*\s+-name\s+(VHDL_FILE|VERILOG_FILE|QIP_FILE|SYSTEMVERILOG_FILE|SDC_FILE)\s+(.*?)$'     
         for line in content:
             line = line.replace("file join $::quartus(qip_path) ", "").strip()
             match = re.match(pattern, line)
