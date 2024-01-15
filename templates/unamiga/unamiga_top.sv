@@ -1,6 +1,6 @@
 `default_nettype none
 
-module neptuno_top (
+module unamiga_top (
 	input         CLOCK_27,
 `ifdef USE_CLOCK_50
 	input         CLOCK_50,
@@ -44,7 +44,8 @@ module neptuno_top (
 	output       I2S_LRCK,
 	output       I2S_DATA,
 	
-	output        STM_RST = 1'b0,
+	input [5:0]  JOYA,
+	input [5:0]  JOYB,
 	
 	output        AUDIO_L,
 	output        AUDIO_R,
@@ -75,35 +76,7 @@ guest_top guest
  .*
 );
 
-wire joy1up,joy1down,joy1left,joy1right,joy1fire1,joy1fire2;
-wire joy2up,joy2down,joy2left,joy2right,joy2fire1,joy2fire2;
-wire [7:0] joy1 ={2'b11,joy1fire2,joy1fire1,joy1right,joy1left,joy1down,joy1up};
-wire [7:0] joy2 ={2'b11,joy2fire2,joy2fire1,joy2right,joy2left,joy2down,joy2up};
-wire [7:0] joy3;
-wire [7:0] joy4;
-
-joydecoder joydecoder
-(
-			.clk      (CLOCK_50),
-			.joy_data (JOY_DATA),
-			.joy_clk  (JOY_CLK),
-			.joy_load_n (JOY_LOAD),
-			.joy1up   (joy1up),
-			.joy1down (joy1down),
-			.joy1left (joy1left),
-			.joy1right(joy1right),
-			.joy1fire1(joy1fire1),
-			.joy1fire2(joy1fire2),
-			.joy2up   (joy2up),
-			.joy2down (joy2down),
-			.joy2left (joy2left),
-			.joy2right(joy2right),
-			.joy2fire1(joy2fire1),
-			.joy2fire2(joy2fire2) 
-		);
-
-		
-		wire reset_n;
+wire reset_n;
 wire ps2_keyboard_clk_in = PS2_KEYBOARD_CLK;
 wire ps2_keyboard_clk_out;
 wire ps2_keyboard_dat_in = PS2_KEYBOARD_DAT ;
@@ -121,6 +94,12 @@ assign PS2_MOUSE_DAT = !ps2_mouse_dat_out ? 1'b0 : 1'bZ;
 
 wire spi_clk_int;
 assign SD_SCK = spi_clk_int;
+
+wire [7:0] joy1 = {2'b1,JOYA[5],JOYA[4],JOYA[0],JOYA[1],JOYA[2],JOYA[3]};
+wire [7:0] joy2 = {2'b1,JOYB[5],JOYB[4],JOYB[0],JOYB[1],JOYB[2],JOYB[3]};
+wire [7:0] joy3 = 8'b1;
+wire [7:0] joy4 = 8'b1;
+
  
 substitute_mcu #(.sysclk_frequency(500)) controller
 (
@@ -141,18 +120,21 @@ substitute_mcu #(.sysclk_frequency(500)) controller
 `endif
  .conf_data0   (CONF_DATA0),
  
- .ps2k_clk_in  ( ps2_keyboard_clk_in),
- .ps2k_dat_in  ( ps2_keyboard_dat_in),
- .ps2k_clk_out ( ps2_keyboard_clk_out),
- .ps2k_dat_out ( ps2_keyboard_dat_out),
- .ps2m_clk_in  ( ps2_mouse_clk_in),
+ .ps2k_clk_in  (ps2_keyboard_clk_in),
+ .ps2k_dat_in  (ps2_keyboard_dat_in),
+ .ps2k_clk_out (ps2_keyboard_clk_out),
+ .ps2k_dat_out (ps2_keyboard_dat_out),
+ .ps2m_clk_in  (ps2_mouse_clk_in),
  .ps2m_dat_in  (ps2_mouse_dat_in),
  .ps2m_clk_out (ps2_mouse_clk_out),
  .ps2m_dat_out (ps2_mouse_dat_out),
+ 
  .joy1         (joy1),
  .joy2         (joy2),
  .joy3         (joy3),
  .joy4         (joy4),
+ 
  .buttons(4'b1111)
 );
+
 endmodule
